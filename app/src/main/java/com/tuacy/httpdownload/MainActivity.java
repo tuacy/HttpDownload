@@ -40,6 +40,8 @@ public class MainActivity extends AppCompatActivity {
 	private Button      mBtnStartAll;
 	private Button      mBtnStopAll;
 	private Button      mBtnCancelAll;
+	private Button      mBtnPause;
+	private Button      mBtnResume;
 
 	private DownloadRequest mRequest1;
 	private DownloadRequest mRequest2;
@@ -82,29 +84,32 @@ public class MainActivity extends AppCompatActivity {
 		mBtnStartAll = (Button) findViewById(R.id.btn_start_all);
 		mBtnStopAll = (Button) findViewById(R.id.btn_stop_all);
 		mBtnCancelAll = (Button) findViewById(R.id.btn_cancel_all);
+
+		mBtnPause = (Button) findViewById(R.id.btn_pause);
+		mBtnResume = (Button) findViewById(R.id.btn_resume);
 	}
 
 	private void initData() {
 		mManager = DownloadManager.getInstance(3);
-		mRequest1 = new DownloadRequest().setUrl("http://219.235.31.61/sw/189/26/info12")
+		mRequest1 = new DownloadRequest().setUrl("http://219.235.31.61/sw/119/5/X10_BETA_V1.09.12203_30-05-2014.bin")
 										 .setDestDirectory(DEST_DIR_PATH)
 										 .setProgressInterval(1000);
 		mRequest1.setDownloadListener(new CustomerDownloadListener(mProgressBar1));
-		mRequest1.setPriority(DownloadRequest.Priority.HIGH);
-		mRequest2 = new DownloadRequest().setUrl("http://219.235.31.61/sw/193/32/info23")
+		mRequest1.setPriority(DownloadRequest.Priority.LOW);
+		mRequest2 = new DownloadRequest().setUrl("http://219.235.31.61/sw/197/25/Miuibox_Champion_V1.10_23-07-2015.bin")
 										 .setDestDirectory(DEST_DIR_PATH)
 										 .setProgressInterval(1000);
 		mRequest2.setDownloadListener(new CustomerDownloadListener(mProgressBar2));
 		mRequest2.setPriority(DownloadRequest.Priority.LOW);
-		mRequest3 = new DownloadRequest().setUrl("http://219.235.31.61/sw/197/25/info22")
+		mRequest3 = new DownloadRequest().setUrl("http://219.235.31.61/sw/119/5/X100_Super_V1.09.12203_30-05-2014.bin")
 										 .setDestDirectory(DEST_DIR_PATH)
 										 .setProgressInterval(1000);
 		mRequest3.setDownloadListener(new CustomerDownloadListener(mProgressBar3));
-		mRequest4 = new DownloadRequest().setUrl("http://219.235.31.61/sw/2/5/info1")
+		mRequest4 = new DownloadRequest().setUrl("http://219.235.31.61/sw/119/5/X100_Super_V1.09.12397_19-06-2014.bin")
 										 .setDestDirectory(DEST_DIR_PATH)
 										 .setProgressInterval(1000);
 		mRequest4.setDownloadListener(new CustomerDownloadListener(mProgressBar4));
-		mRequest5 = new DownloadRequest().setUrl("http://219.235.31.61/sw/2/74/info2")
+		mRequest5 = new DownloadRequest().setUrl("http://219.235.31.61/sw/189/26/MAGNUM_MR-2500HD_V1.21_26-02-2014.bin")
 										 .setDestDirectory(DEST_DIR_PATH)
 										 .setProgressInterval(1000);
 		mRequest5.setDownloadListener(new CustomerDownloadListener(mProgressBar5));
@@ -123,13 +128,13 @@ public class MainActivity extends AppCompatActivity {
 		mBtnStop1.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View v) {
-				mManager.stop("http://219.235.31.61/sw/189/26/info12");
+				mManager.stop("http://219.235.31.61/sw/119/5/X10_BETA_V1.09.12203_30-05-2014.bin");
 			}
 		});
 		mBtnCancel1.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View v) {
-				mManager.cancel("http://219.235.31.61/sw/189/26/info12");
+				mManager.cancel("http://219.235.31.61/sw/119/5/X10_BETA_V1.09.12203_30-05-2014.bin");
 			}
 		});
 
@@ -143,13 +148,13 @@ public class MainActivity extends AppCompatActivity {
 		mBtnStop2.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View v) {
-				mManager.stop("http://219.235.31.61/sw/193/32/info23");
+				mManager.stop("http://219.235.31.61/sw/197/25/Miuibox_Champion_V1.10_23-07-2015.bin");
 			}
 		});
 		mBtnCancel2.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View v) {
-				mManager.cancel("http://219.235.31.61/sw/193/32/info23");
+				mManager.cancel("http://219.235.31.61/sw/197/25/Miuibox_Champion_V1.10_23-07-2015.bin");
 			}
 		});
 
@@ -163,13 +168,13 @@ public class MainActivity extends AppCompatActivity {
 		mBtnStop3.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View v) {
-				mManager.stop("http://219.235.31.61/sw/197/25/info22");
+				mManager.stop("http://219.235.31.61/sw/119/5/X100_Super_V1.09.12203_30-05-2014.bin");
 			}
 		});
 		mBtnCancel3.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View v) {
-				mManager.cancel("http://219.235.31.61/sw/197/25/info22");
+				mManager.cancel("http://219.235.31.61/sw/119/5/X100_Super_V1.09.12203_30-05-2014.bin");
 			}
 		});
 
@@ -183,13 +188,13 @@ public class MainActivity extends AppCompatActivity {
 		mBtnStop4.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View v) {
-				mManager.stop("http://219.235.31.61/sw/2/5/info1");
+				mManager.stop("http://219.235.31.61/sw/119/5/X100_Super_V1.09.12397_19-06-2014.bin");
 			}
 		});
 		mBtnCancel4.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View v) {
-				mManager.cancel("http://219.235.31.61/sw/2/5/info1");
+				mManager.cancel("http://219.235.31.61/sw/119/5/X100_Super_V1.09.12397_19-06-2014.bin");
 			}
 		});
 
@@ -203,13 +208,13 @@ public class MainActivity extends AppCompatActivity {
 		mBtnStop5.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View v) {
-				mManager.stop("http://219.235.31.61/sw/2/74/info2");
+				mManager.stop("http://219.235.31.61/sw/189/26/MAGNUM_MR-2500HD_V1.21_26-02-2014.bin");
 			}
 		});
 		mBtnCancel5.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View v) {
-				mManager.cancel("http://219.235.31.61/sw/2/74/info2");
+				mManager.cancel("http://219.235.31.61/sw/189/26/MAGNUM_MR-2500HD_V1.21_26-02-2014.bin");
 			}
 		});
 
@@ -235,6 +240,18 @@ public class MainActivity extends AppCompatActivity {
 				mManager.cancelAll();
 			}
 		});
+		mBtnPause.setOnClickListener(new View.OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				mManager.threadPollPause();
+			}
+		});
+		mBtnResume.setOnClickListener(new View.OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				mManager.threadPollResume();
+			}
+		});
 	}
 
 	private class CustomerDownloadListener implements DownloadListener {
@@ -247,7 +264,7 @@ public class MainActivity extends AppCompatActivity {
 
 		@Override
 		public void onStart(int downloadId, String url, String filePath, long totalBytes) {
-			Log.d("vae_tag", "onStart url:" + filePath);
+			Log.d("vae_tag", "onStart url:" + url);
 		}
 
 		@Override

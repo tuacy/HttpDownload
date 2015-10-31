@@ -57,7 +57,7 @@ public class DownloadRequest implements Comparable<DownloadRequest> {
 	private int mAllowedNetworkTypes = 0;
 
 	/**
-	 * The context used in {@link DownloadDispatcher}.
+	 * The context
 	 */
 	private Context mContext;
 
@@ -82,15 +82,14 @@ public class DownloadRequest implements Comparable<DownloadRequest> {
 	private String mDestinationFilePath;
 
 	/**
-	 * Progress interval, how long should {@link DownloadDispatcher} invoke {@link DownloadListener#onProgress(int, String, String, long,
-	 * long)}.
+	 * Progress interval
 	 */
 	private int mProgressInterval;
 
 	/**
-	 * Download request queue.
+	 * Download request help queue.
 	 */
-	private DownloadRequestQueue mDownloadRequestQueue;
+	private DownloadRequestHelpQueue mDownloadRequestHelpQueue;
 
 	/**
 	 * Timestamp of this download request when created.
@@ -181,6 +180,10 @@ public class DownloadRequest implements Comparable<DownloadRequest> {
 		return left == right ? (int) (this.mTimestamp - other.mTimestamp) : right.ordinal() - left.ordinal();
 	}
 
+	public long getDownloadRequestAddTimestamp() {
+		return mTimestamp;
+	}
+
 	/**
 	 * Set the priority of this downloader.
 	 *
@@ -250,8 +253,8 @@ public class DownloadRequest implements Comparable<DownloadRequest> {
 	 * @param queue download request queue
 	 * @return this Request object to allow for chaining
 	 */
-	protected DownloadRequest setDownloadQueue(DownloadRequestQueue queue) {
-		mDownloadRequestQueue = queue;
+	protected DownloadRequest setDownloadQueue(DownloadRequestHelpQueue queue) {
+		mDownloadRequestHelpQueue = queue;
 
 		return this;
 	}
@@ -328,7 +331,7 @@ public class DownloadRequest implements Comparable<DownloadRequest> {
 	}
 
 	/**
-	 * Get progress interval, used in {@link DownloadDispatcher}.
+	 * Get progress interval, used in {@link DownloadPrioritizedRunnable}.
 	 *
 	 * @return progress interval
 	 */
@@ -508,8 +511,8 @@ public class DownloadRequest implements Comparable<DownloadRequest> {
 	 * Notifies the download request queue that this request has finished(succesfully or fail)
 	 */
 	protected void finish() {
-		if (mDownloadRequestQueue != null) {
-			mDownloadRequestQueue.finishDownloadRequest(this);
+		if (mDownloadRequestHelpQueue != null) {
+			mDownloadRequestHelpQueue.finishDownloadRequest(this);
 		}
 	}
 }

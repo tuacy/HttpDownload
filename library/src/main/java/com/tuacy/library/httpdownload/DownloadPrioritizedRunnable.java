@@ -21,9 +21,12 @@ import static java.net.HttpURLConnection.HTTP_PARTIAL;
 import static java.net.HttpURLConnection.HTTP_SEE_OTHER;
 import static java.net.HttpURLConnection.HTTP_UNAVAILABLE;
 
-public class DownloadRunnable implements Runnable {
+/**
+ * Created by tuacy on 2015/11/1.
+ */
+public class DownloadPrioritizedRunnable implements Runnable, Comparable<DownloadPrioritizedRunnable> {
 
-	private static final String TAG = DownloadDispatcher.class.getSimpleName();
+	private static final String TAG = DownloadPrioritizedRunnable.class.getSimpleName();
 
 	/**
 	 * Sleep time before download.
@@ -118,7 +121,7 @@ public class DownloadRunnable implements Runnable {
 	private DownloadDelivery mDelivery = null;
 	private DownloadRequest  mRequest  = null;
 
-	public DownloadRunnable(DownloadRequest request, DownloadDelivery downloadDelivery) {
+	public DownloadPrioritizedRunnable(DownloadRequest request, DownloadDelivery downloadDelivery) {
 		mRequest = request;
 		mDelivery = downloadDelivery;
 	}
@@ -126,7 +129,7 @@ public class DownloadRunnable implements Runnable {
 	@Override
 	public void run() {
 
-		Process.setThreadPriority(Process.THREAD_PRIORITY_BACKGROUND);
+		android.os.Process.setThreadPriority(Process.THREAD_PRIORITY_BACKGROUND);
 
 		Thread.currentThread().setName(DEFAULT_THREAD_NAME);
 
@@ -443,5 +446,18 @@ public class DownloadRunnable implements Runnable {
 				conn.disconnect();
 			}
 		}
+	}
+
+	@Override
+	public int compareTo(DownloadPrioritizedRunnable another) {
+		DownloadRequest.Priority left = this.mRequest.getPriority();
+		DownloadRequest.Priority right = another.mRequest.getPriority();
+
+		/*
+		 * High-priority requests are "lesser" so they are sorted to the front.
+		 * Equal priorities are sorted by timestamp to provide FIFO ordering.
+		 */
+		return left == right ? (int) (this.mRequest.getDownloadRequestAddTimestamp() - another.mRequest.getDownloadRequestAddTimestamp()) :
+			   right.ordinal() - left.ordinal();
 	}
 }
