@@ -30,17 +30,29 @@ public class DownloadManager {
 	 */
 	public static final int HTTP_REQUESTED_RANGE_NOT_SATISFIABLE = 416;
 
-	private static DownloadManager          mInstance                = null;
-	private        DownloadRequestHelpQueue mDownloadRquestHelpQueue = null;
-	private        PausableExecutorService  mPausableExcutorService  = null;
-	private        DownloadDelivery         mDownloadDelivery        = null;
+	/**
+	 * singleton instance
+	 */
+	private static DownloadManager          mInstance                 = null;
+	/**
+	 * manager the request we have joined the thread pool(then we can control the request)
+	 */
+	private        DownloadRequestHelpQueue mDownloadRequestHelpQueue = null;
+	/**
+	 * thread pool(pause able, priority task)
+	 */
+	private        PausableExecutorService  mPausableExecutorService  = null;
+	/**
+	 * download delivery: used to delivery callback to call back in main thread.
+	 */
+	private        DownloadDelivery         mDownloadDelivery         = null;
 
 	/**
 	 * @param nThreads thread pool threads max count
 	 */
 	private DownloadManager(int nThreads) {
-		mDownloadRquestHelpQueue = new DownloadRequestHelpQueue();
-		mPausableExcutorService = AndroidExecutors.newFixedPriorityExecutor(nThreads);
+		mDownloadRequestHelpQueue = new DownloadRequestHelpQueue();
+		mPausableExecutorService = AndroidExecutors.newFixedPriorityExecutor(nThreads);
 		mDownloadDelivery = new DownloadDelivery(new Handler(Looper.getMainLooper()));
 	}
 
@@ -80,10 +92,10 @@ public class DownloadManager {
 		}
 
 		request.cleanCancelOrStopState();
-		if (mDownloadRquestHelpQueue.add(request)) {
+		if (mDownloadRequestHelpQueue.add(request)) {
 			/** add to thread pool */
 			DownloadPrioritizedRunnable downloadRunnable = new DownloadPrioritizedRunnable(request, mDownloadDelivery);
-			mPausableExcutorService.execute(downloadRunnable);
+			mPausableExecutorService.execute(downloadRunnable);
 			return request.getDownloadId();
 		}
 		return -1;
@@ -95,7 +107,7 @@ public class DownloadManager {
 	 * @param downloadId the request download id
 	 */
 	public void cancel(int downloadId) {
-		mDownloadRquestHelpQueue.cancel(downloadId);
+		mDownloadRequestHelpQueue.cancel(downloadId);
 	}
 
 	/**
@@ -104,7 +116,7 @@ public class DownloadManager {
 	 * @param url the request download url
 	 */
 	public void cancel(String url) {
-		mDownloadRquestHelpQueue.cancel(url);
+		mDownloadRequestHelpQueue.cancel(url);
 	}
 
 	/**
@@ -113,7 +125,7 @@ public class DownloadManager {
 	 * @param downloadId the request download id
 	 */
 	public void stop(int downloadId) {
-		mDownloadRquestHelpQueue.stop(downloadId);
+		mDownloadRequestHelpQueue.stop(downloadId);
 	}
 
 	/**
@@ -122,34 +134,34 @@ public class DownloadManager {
 	 * @param url the request download url
 	 */
 	public void stop(String url) {
-		mDownloadRquestHelpQueue.stop(url);
+		mDownloadRequestHelpQueue.stop(url);
 	}
 
 	/**
 	 * Cancel all the download request task will delete the temp file
 	 */
 	public void cancelAll() {
-		mDownloadRquestHelpQueue.cancelAll();
+		mDownloadRequestHelpQueue.cancelAll();
 	}
 
 	/**
 	 * Stop all the download request task
 	 */
 	public void stopAll() {
-		mDownloadRquestHelpQueue.stopAll();
+		mDownloadRequestHelpQueue.stopAll();
 	}
 
 	/**
 	 * Pause the thread pool (if the thread already start will continue do until end if the thread not start will pause )
 	 */
 	public void threadPollPause() {
-		mPausableExcutorService.pause();
+		mPausableExecutorService.pause();
 	}
 
 	/**
 	 * Resume the pause threads in thread pool
 	 */
 	public void threadPollResume() {
-		mPausableExcutorService.resume();
+		mPausableExecutorService.resume();
 	}
 }

@@ -10,7 +10,7 @@ import java.util.concurrent.atomic.AtomicInteger;
 import com.tuacy.library.httpdownload.DownloadRequest.DownloadState;
 
 /**
- * Created by tuacy on 2015/11/1.
+ * Help to control the download request in thread pool.
  */
 public class DownloadRequestHelpQueue {
 
