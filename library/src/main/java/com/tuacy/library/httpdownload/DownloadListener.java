@@ -49,8 +49,8 @@ public interface DownloadListener {
 	 * Invoked when downloading failed.
 	 *
 	 * @param downloadId download id in download request queue
-	 * @param statusCode status code
 	 * @param url        download url
+	 * @param filePath   file path
 	 * @param statusCode error code
 	 * @param errMsg     error message
 	 */
