@@ -2,7 +2,8 @@
 
 ##一. 简单的介绍
 
-1). 很大一部分的代码都是来自(https://github.com/Coolerfall/Android-HttpDownloadManager)，在这个得基础上做的一些修改，改成用线程池来实现的。
+1). 很大一部分的代码都是来自(https://github.com/Coolerfall/Android-HttpDownloadManager)。
+	在这个得基础上做的一些修改，改成用线程池来实现的。
 
 2). 里面类的简单介绍
 
