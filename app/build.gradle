@@ -21,8 +21,9 @@ android {
 }
 
 dependencies {
-    compile project(':android-httpdownload')
+//    compile project(':android-httpdownload')
     compile fileTree(dir: 'libs', include: ['*.jar'])
     compile 'com.android.support:appcompat-v7:22.2.0'
+    compile 'com.tuacy.library:android-httpdownload:1.0.2'
 
 }
